@@ -1,1 +1,5 @@
+asgiref==3.7.2
+Django==5.0
 pymodbus==3.6.2
+sqlparse==0.4.4
+typing_extensions==4.8.0
