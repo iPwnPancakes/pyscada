@@ -1,5 +1,7 @@
 asgiref==3.7.2
 Django==5.0
+mysqlclient==2.2.0
 pymodbus==3.6.2
+python-dotenv==1.0.0
 sqlparse==0.4.4
 typing_extensions==4.8.0
