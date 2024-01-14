@@ -1,6 +1,6 @@
 venv/
-.env*
-!.env.example
+**/.env
+!**/.env.example
 
 **/__pycache__/**
 **/alembic.ini
