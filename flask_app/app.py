@@ -31,4 +31,4 @@ def make_tag():
     db.session.add(tag)
     db.session.commit()
 
-    return "OK"
+    return jsonify("Success")
