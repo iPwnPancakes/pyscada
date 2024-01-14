@@ -8,7 +8,7 @@ class Tag(Base):
     __tablename__ = 'tags'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String, primary_key=True)
+    name = Column(String, nullable=True)
 
     value_int = Column(Integer, nullable=True)
     value_float = Column(Float, nullable=True)
