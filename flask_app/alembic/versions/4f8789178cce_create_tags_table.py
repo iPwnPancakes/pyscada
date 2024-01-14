@@ -22,7 +22,7 @@ def upgrade() -> None:
     op.create_table(
         'tags',
         sa.Column('id', sa.BIGINT, primary_key=True, nullable=False),
-        sa.Column('name', sa.String(255), nullable=True),
+        sa.Column('name', sa.String(255), nullable=False),
         sa.Column('value_int', sa.INTEGER, nullable=True),
         sa.Column('value_float', sa.FLOAT, nullable=True),
         sa.Column('value_bool', sa.BOOLEAN, nullable=True),
