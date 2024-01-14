@@ -21,7 +21,7 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         'devices',
-        sa.Column('id', sa.BIGINT, nullable=False),
+        sa.Column('id', sa.BIGINT, primary_key=True, nullable=False),
         sa.Column('name', sa.String(length=255), nullable=False),
     )
 

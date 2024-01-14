@@ -21,7 +21,7 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         'device_tag_config',
-        sa.Column('id', sa.BIGINT, nullable=False),
+        sa.Column('id', sa.BIGINT, primary_key=True, nullable=False),
         sa.Column('device_id', sa.INTEGER, sa.ForeignKey('devices.id'), nullable=False),
         sa.Column('tag_id', sa.INTEGER, sa.ForeignKey('tags.id'), nullable=False),
 
