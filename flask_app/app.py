@@ -12,6 +12,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 
 db = SQLAlchemy(app)
 
+
 @app.route('/')
 def hello_world():
     return render_template('index.jinja2', test='asdf')
