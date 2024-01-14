@@ -1,24 +1,31 @@
-from sqlalchemy import Column, String, Integer, Float, Boolean
-from sqlalchemy.orm import declarative_base
+from typing import Optional
 
-Base = declarative_base()
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship, Mapped, mapped_column
+
+from flask_app.models.Base import Base
+from flask_app.models.Device import Device
 
 
 class Tag(Base):
     __tablename__ = 'tags'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    device_id: Mapped[int] = mapped_column(ForeignKey('devices.id'))
 
-    value_int = Column(Integer, nullable=True)
-    value_float = Column(Float, nullable=True)
-    value_string = Column(String, nullable=True)
-    value_bool = Column(Boolean, nullable=True)
+    name: Mapped[str] = mapped_column()
+    value_int: Mapped[Optional[int]] = mapped_column()
+    value_float: Mapped[Optional[float]] = mapped_column()
+    value_string: Mapped[Optional[str]] = mapped_column()
+    value_bool: Mapped[Optional[bool]] = mapped_column()
+
+    device: Mapped["Device"] = relationship(back_populates="tags")
 
     def to_dict(self) -> dict:
         return {
             'id': self.id,
             'name': self.name,
+            'device_id': self.device_id,
             'value_int': self.value_int,
             'value_float': self.value_float,
             'value_string': self.value_string,

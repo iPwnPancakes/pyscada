@@ -1,9 +1,10 @@
 import os
 
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+
 from flask_app.models.Tag import Tag
-from dotenv import load_dotenv
 
 load_dotenv()
 
