@@ -7,6 +7,7 @@ Base = declarative_base()
 class Tag(Base):
     __tablename__ = 'tags'
 
+    id = Column(Integer, primary_key=True)
     name = Column(String, primary_key=True)
 
     value_int = Column(Integer, nullable=True)
@@ -16,6 +17,7 @@ class Tag(Base):
 
     def to_dict(self) -> dict:
         return {
+            'id': self.id,
             'name': self.name,
             'value_int': self.value_int,
             'value_float': self.value_float,

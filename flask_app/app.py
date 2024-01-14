@@ -33,3 +33,13 @@ def make_tag():
     db.session.commit()
 
     return jsonify("Success")
+
+
+@app.route('/tags/<id>', methods=['DELETE'])
+def delete_tag(id):
+    tag = db.session.query(Tag).filter(Tag.id == id).first()
+
+    db.session.delete(tag)
+    db.session.commit()
+
+    return jsonify("Success")
