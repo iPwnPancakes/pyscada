@@ -15,7 +15,11 @@ def all_tags():
 @routes.route('/tags', methods=['POST'])
 def make_tag():
     db = current_app.db
-    tag = Tag(name=request.form.get('name'))
+
+    name = request.form.get('name')
+    device_id = request.form.get('device_id')
+
+    tag = Tag(name=name, device_id=device_id)
 
     db.session.add(tag)
     db.session.commit()
