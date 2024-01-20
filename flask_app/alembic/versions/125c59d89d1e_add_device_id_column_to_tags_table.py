@@ -30,4 +30,7 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
+    with op.batch_alter_table('tags') as batch_op:
+        batch_op.drop_constraint('fk_tags_device_id')
+
     op.drop_column('tags', 'device_id')

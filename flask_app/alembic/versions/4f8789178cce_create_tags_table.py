@@ -21,7 +21,7 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         'tags',
-        sa.Column('id', sa.BIGINT, primary_key=True, nullable=False),
+        sa.Column('id', sa.BIGINT, primary_key=True, nullable=False, autoincrement=True),
         sa.Column('name', sa.String(255), nullable=False),
         sa.Column('value_int', sa.INTEGER, nullable=True),
         sa.Column('value_float', sa.FLOAT, nullable=True),

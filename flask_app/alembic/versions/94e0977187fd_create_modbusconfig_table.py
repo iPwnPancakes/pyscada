@@ -21,7 +21,7 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         'modbus_config',
-        sa.Column('id', sa.BIGINT, primary_key=True, nullable=False),
+        sa.Column('id', sa.BIGINT, primary_key=True, nullable=False, autoincrement=True),
         sa.Column('slave_id', sa.INTEGER, nullable=False),
         sa.Column('register', sa.INTEGER, nullable=False),
     )
