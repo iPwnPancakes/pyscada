@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, current_app
 
 from flask_app.models.Device import Device
 from flask_app.models.ModbusConfig import ModbusConfig
+from flask_app.models.NetworkConfiguration import NetworkConfiguration
 from flask_app.models.Tag import Tag
 
 routes = Blueprint('device_routes', __name__)
@@ -96,3 +97,28 @@ def create_tag_device_config(device_id, tag_id):
     db.session.commit()
 
     return jsonify(config.to_dict())
+
+
+@routes.route('/devices/<device_id>/network', methods=['GET'])
+def get_device_network_config(device_id):
+    db = current_app.db
+
+    networkConfig = db.session.query(NetworkConfiguration).filter(NetworkConfiguration.device_id == device_id).first()
+
+    return jsonify(networkConfig.to_dict())
+
+
+@routes.route('/devices/<device_id>/network', methods=['POST'])
+def create_device_network_config(device_id):
+    db = current_app.db
+
+    networkConfig = NetworkConfiguration(
+        device_id=device_id,
+        ip_address=request.form.get('ip_address'),
+        port=request.form.get('port')
+    )
+
+    db.session.add(networkConfig)
+    db.session.commit()
+
+    return jsonify(networkConfig.to_dict())
