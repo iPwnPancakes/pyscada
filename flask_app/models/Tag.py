@@ -4,7 +4,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from flask_app.models.Base import Base
-from flask_app.models.Device import Device
+from flask_app.models.DeviceTagConfig import DeviceTagConfig
 
 
 class Tag(Base):
@@ -20,6 +20,7 @@ class Tag(Base):
     value_bool: Mapped[Optional[bool]] = mapped_column()
 
     device: Mapped["Device"] = relationship(back_populates="tags")
+    device_tag_config: Mapped["DeviceTagConfig"] = relationship(back_populates="tag")
 
     def to_dict(self) -> dict:
         return {
