@@ -5,7 +5,7 @@ from flask_app.models.ModbusConfig import ModbusConfig
 
 
 class Read:
-    def read(self, device: Device, modbus_config: ModbusConfig) -> None:
+    def read(self, device: Device, modbus_config: ModbusConfig) -> int | float:
         network_config = device.network_config
 
         slave_id = modbus_config.slave_id
@@ -18,7 +18,6 @@ class Read:
         client.close()
 
         if response.isError():
-            print("Error: " + str(response))
-            return
+            raise response
 
-        print(response.registers[0])
+        return response.registers[0]

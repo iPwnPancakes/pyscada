@@ -17,6 +17,10 @@ def read_modbus():
     device = db.session.query(Device).filter(Device.id == device_id).first()
     tag = db.session.query(Tag).filter(Tag.device_id == device_id, Tag.id == tag_id).first()
 
-    Read().read(device, tag)
+    value = Read().read(device, tag.device_tag_config)
+
+    tag.value_int = value
+
+    db.session.commit()
 
     return jsonify("Success")
