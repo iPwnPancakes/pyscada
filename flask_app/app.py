@@ -1,7 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-from flask import Flask, render_template
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 from flask_app.lib.mqtt.Client import Client
@@ -9,6 +9,7 @@ from flask_app.models.Base import Base
 from flask_app.routes.http.device import routes as device_routes
 from flask_app.routes.http.modbus import routes as modbus_routes
 from flask_app.routes.http.tag import routes as tag_routes
+from flask_app.routes.http.ui import routes as ui_routes
 from flask_app.routes.mqtt.device import routes as device_mqtt_routes
 
 load_dotenv()
@@ -22,6 +23,7 @@ with app.app_context():
     db.init_app(app)
     app.db = db
 
+app.register_blueprint(ui_routes)
 app.register_blueprint(tag_routes)
 app.register_blueprint(device_routes)
 app.register_blueprint(modbus_routes)
@@ -33,8 +35,3 @@ mqtt_client = Client(
 )
 mqtt_client.register_routes(device_mqtt_routes)
 mqtt_client.run()
-
-
-@app.route('/')
-def hello_world():
-    return render_template('index.jinja2', test='asdf')
