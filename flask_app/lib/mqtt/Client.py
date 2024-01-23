@@ -34,3 +34,5 @@ class Client:
         client.on_message = self.on_message
         client.connect_async(self.host, self.port, 60)
         client.loop_start()
+
+        print(f'Listening to MQTT Client running on {self.host}:{self.port}')
