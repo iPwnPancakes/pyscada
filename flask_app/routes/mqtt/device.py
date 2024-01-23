@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 
 from flask_app.lib.mqtt.Router import Router
 from flask_app.models.Device import Device
-from flask_app.models.ModbusConfig import ModbusConfig
+from flask_app.models.MqttConfig import MqttConfig
 from flask_app.models.Tag import Tag
 
 
@@ -29,8 +29,8 @@ def parse_device_message(message: MQTTMessage):
     # Get device from database
     tags = session.query(Tag).filter(Tag.device_id == device_id).all()
     for tag in tags:
-        if isinstance(tag.device_tag_config, ModbusConfig):
-            register = str(tag.device_tag_config.register)
+        if isinstance(tag.device_tag_config, MqttConfig):
+            register = tag.device_tag_config.address
             if register in data:
                 tag.value_int = data[register]
 

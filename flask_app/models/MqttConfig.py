@@ -1,3 +1,4 @@
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
 from flask_app.models.DeviceTagConfig import DeviceTagConfig
@@ -6,7 +7,7 @@ from flask_app.models.DeviceTagConfig import DeviceTagConfig
 class MqttConfig(DeviceTagConfig):
     __tablename__ = 'mqtt_configs'
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(ForeignKey('device_tag_config.id'), primary_key=True)
     address: Mapped[str]
 
     __mapper_args__ = {
