@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, current_app
 
 from flask_app.lib.modbus.ReadDriver import Read
+from flask_app.models.ModbusConfig import ModbusConfig
 from flask_app.models.Device import Device
 from flask_app.models.Tag import Tag
 
@@ -17,7 +18,16 @@ def read_modbus():
     device = db.session.query(Device).filter(Device.id == device_id).first()
     tag = db.session.query(Tag).filter(Tag.device_id == device_id, Tag.id == tag_id).first()
 
-    value = Read().read(device, tag.device_configs)
+    # Get modbus config
+    modbus_config = None
+    for tag_config in tag.device_configs:
+        if isinstance(tag_config, ModbusConfig):
+            modbus_config = tag_config
+
+    if modbus_config is None:
+        return jsonify("No modbus config")
+
+    value = Read().read(device, modbus_config)
 
     tag.value_int = value
 

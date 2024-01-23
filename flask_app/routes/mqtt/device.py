@@ -9,6 +9,9 @@ from flask_app.lib.mqtt.Router import Router
 from flask_app.models.Device import Device
 from flask_app.models.MqttConfig import MqttConfig
 from flask_app.models.Tag import Tag
+from flask_app.models.ModbusConfig import ModbusConfig
+from flask_app.lib.modbus.Write import write_modbus
+from flask_app.models.DeviceTagConfig import DeviceTagConfig
 
 
 def parse_device_message(message: MQTTMessage):
@@ -29,14 +32,22 @@ def parse_device_message(message: MQTTMessage):
     # Get device from database
     tags = session.query(Tag).filter(Tag.device_id == device_id).all()
     for tag in tags:
-        for config in tag.device_configs:
-            if isinstance(config, MqttConfig):
-                register = config.address
-                if register in data:
-                    tag.value_int = data[register]
+        modbus_config: ModbusConfig|None = get_config(tag, ModbusConfig)
+        mqtt_config: MqttConfig|None = get_config(tag, MqttConfig)
+
+        if modbus_config is not None and mqtt_config is not None:
+            register = mqtt_config.address
+            if register in data:
+                write_modbus(tag.device, modbus_config, data[register])
 
     session.commit()
     session.close()
+
+
+def get_config(tag: Tag, config: type[DeviceTagConfig]) -> DeviceTagConfig | None:
+    for tag_config in tag.device_configs:
+        if isinstance(tag_config, config):
+            return tag_config
 
 
 engine = create_engine(os.environ['SQLALCHEMY_DATABASE_URI'])
