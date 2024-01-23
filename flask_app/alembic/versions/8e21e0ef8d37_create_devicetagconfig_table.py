@@ -27,7 +27,6 @@ def upgrade() -> None:
 
         # Polymorphic association
         sa.Column('protocol_id', sa.INTEGER, sa.ForeignKey('protocol.id'), nullable=False),
-        sa.Column('protocol_config_id', sa.INTEGER, nullable=False),
 
         sa.UniqueConstraint('tag_id', 'protocol_id', name='unique_tag_id_protocol_id')
     )

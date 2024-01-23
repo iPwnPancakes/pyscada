@@ -29,10 +29,11 @@ def parse_device_message(message: MQTTMessage):
     # Get device from database
     tags = session.query(Tag).filter(Tag.device_id == device_id).all()
     for tag in tags:
-        if isinstance(tag.device_tag_config, MqttConfig):
-            register = tag.device_tag_config.address
-            if register in data:
-                tag.value_int = data[register]
+        for config in tag.device_configs:
+            if isinstance(config, MqttConfig):
+                register = config.address
+                if register in data:
+                    tag.value_int = data[register]
 
     session.commit()
     session.close()

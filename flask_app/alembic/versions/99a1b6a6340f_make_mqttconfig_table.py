@@ -21,7 +21,7 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         'mqtt_configs',
-        sa.Column('id', sa.Integer, nullable=False, primary_key=True),
+        sa.Column('id', sa.Integer, nullable=False, primary_key=True, autoincrement=True),
         sa.Column('address', sa.String(255), nullable=False),
     )
 

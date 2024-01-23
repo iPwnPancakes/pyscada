@@ -11,7 +11,7 @@ class Protocol(Base):
     name: Mapped[str] = Column(String)
     description: Mapped[str] = Column(String)
 
-    device_tag_configs: Mapped["DeviceTagConfig"] = relationship(back_populates="protocol")
+    tag_configs: Mapped["DeviceTagConfig"] = relationship(back_populates="protocol")
 
     def to_dict(self) -> dict:
         return {

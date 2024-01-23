@@ -17,7 +17,7 @@ def read_modbus():
     device = db.session.query(Device).filter(Device.id == device_id).first()
     tag = db.session.query(Tag).filter(Tag.device_id == device_id, Tag.id == tag_id).first()
 
-    value = Read().read(device, tag.device_tag_config)
+    value = Read().read(device, tag.device_configs)
 
     tag.value_int = value
 

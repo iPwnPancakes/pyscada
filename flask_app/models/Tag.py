@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
@@ -20,7 +20,7 @@ class Tag(Base):
     value_bool: Mapped[Optional[bool]] = mapped_column()
 
     device: Mapped["Device"] = relationship(back_populates="tags")
-    device_tag_config: Mapped["DeviceTagConfig"] = relationship(back_populates="tag")
+    device_configs: Mapped[List[DeviceTagConfig]] = relationship(back_populates="tag")
 
     def to_dict(self) -> dict:
         return {

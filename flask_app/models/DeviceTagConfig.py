@@ -12,16 +12,15 @@ class DeviceTagConfig(Base):
     device_id: Mapped[int] = mapped_column(ForeignKey('devices.id'), nullable=False)
     tag_id: Mapped[int] = mapped_column(ForeignKey('tags.id'), nullable=False)
     protocol_id: Mapped[int] = mapped_column(ForeignKey('protocol.id'), nullable=False)  # Polymorphic association
-    protocol_config_id: Mapped[int] = mapped_column(Integer, nullable=False)  # Polymorphic association
 
     # Relationships
     device: Mapped["Device"] = relationship(back_populates="configs")
-    tag: Mapped["Tag"] = relationship(back_populates="device_tag_config")
-    protocol: Mapped[Protocol] = relationship(back_populates="device_tag_configs")
+    tag: Mapped["Tag"] = relationship(back_populates="device_configs")
+    protocol: Mapped[Protocol] = relationship(back_populates="tag_configs")
 
     __mapper_args__ = {
         "polymorphic_identity": "device_tag_config",
-        'polymorphic_on': 'protocol_id'
+        'polymorphic_on': protocol_id
     }
 
     def to_dict(self) -> dict:

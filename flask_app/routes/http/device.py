@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, current_app
 
 from flask_app.models.Device import Device
 from flask_app.models.ModbusConfig import ModbusConfig
+from flask_app.models.MqttConfig import MqttConfig
 from flask_app.models.NetworkConfiguration import NetworkConfiguration
 from flask_app.models.Tag import Tag
 
@@ -16,7 +17,7 @@ def all_devices():
 
 
 @routes.route('/devices', methods=['POST'])
-def make_tag():
+def make_device():
     db = current_app.db
 
     name = request.form.get('name')
@@ -30,7 +31,7 @@ def make_tag():
 
 
 @routes.route('/devices/<id>', methods=['DELETE'])
-def delete_tag(id):
+def delete_device(id):
     db = current_app.db
     device = db.session.query(Device).filter(Device.id == id).first()
 
@@ -77,21 +78,30 @@ def get_tag_device_config(device_id, tag_id):
 
     tag = db.session.query(Tag).filter(Tag.device_id == device_id, Tag.id == tag_id).first()
 
-    return jsonify(tag.device_tag_config.to_dict())
+    return jsonify([config.to_dict() for config in tag.device_configs])
 
 
 @routes.route('/devices/<device_id>/tags/<tag_id>/config', methods=['POST'])
 def create_tag_device_config(device_id, tag_id):
     db = current_app.db
 
-    config = ModbusConfig(
-        device_id=device_id,
-        tag_id=tag_id,
-        protocol_id=request.form.get('protocol_id'),
-        slave_id=request.form.get('slave_id'),
-        register=request.form.get('address'),
-        protocol_config_id=1
-    )
+    config = None
+
+    if int(request.form.get('protocol_id')) == 1:
+        config = ModbusConfig(
+            device_id=device_id,
+            tag_id=tag_id,
+            protocol_id=request.form.get('protocol_id'),
+            slave_id=request.form.get('slave_id'),
+            register=request.form.get('address'),
+        )
+    elif int(request.form.get('protocol_id')) == 2:
+        config = MqttConfig(
+            device_id=device_id,
+            tag_id=tag_id,
+            protocol_id=request.form.get('protocol_id'),
+            address=request.form.get('address'),
+        )
 
     db.session.add(config)
     db.session.commit()
