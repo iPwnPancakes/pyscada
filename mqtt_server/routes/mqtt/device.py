@@ -5,7 +5,7 @@ from paho.mqtt.client import MQTTMessage
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from flask_app.lib.mqtt.Router import Router
+from mqtt_server.lib.mqtt.Router import Router
 from flask_app.models.Device import Device
 from flask_app.models.MqttConfig import MqttConfig
 from flask_app.models.Tag import Tag

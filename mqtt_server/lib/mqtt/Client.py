@@ -3,7 +3,7 @@ from typing import List, Dict, Callable
 import paho.mqtt.client as mqtt
 from paho.mqtt.client import MQTTMessage
 
-from flask_app.lib.mqtt.Router import Router
+from mqtt_server.lib.mqtt.Router import Router
 
 
 class Client:
@@ -33,6 +33,9 @@ class Client:
         client.on_connect = self.on_connect
         client.on_message = self.on_message
         client.connect_async(self.host, self.port, 60)
-        client.loop_start()
 
         print(f'Listening to MQTT Client running on {self.host}:{self.port}')
+
+        client.loop_forever()
+
+
