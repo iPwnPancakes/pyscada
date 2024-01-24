@@ -3,11 +3,15 @@
 This project was created as a way for me to refresh my knowledge on python, as well as to showcase the things I've
 learned about how SCADAs work thus far.
 
-This project is made up of 3 components:
+# The "Architecture"
+
+This project is made up of 3 main components:
 
 - The Flask app
 - The Modbus server
 - The MQTT listening process
+
+![architecture.png](readme_assets%2Farchitecture.png)
 
 # The Flask App
 
