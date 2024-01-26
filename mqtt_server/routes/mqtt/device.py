@@ -21,6 +21,8 @@ def parse_device_message(message: MQTTMessage):
         print(f'Received invalid JSON from topic {message.topic}')
         return
 
+    print(f'Received data from topic {message.topic}: {data}')
+
     engine = create_engine(os.environ['SQLALCHEMY_DATABASE_URI'])
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -36,9 +38,10 @@ def parse_device_message(message: MQTTMessage):
         mqtt_config: MqttConfig|None = get_config(tag, MqttConfig)
 
         if modbus_config is not None and mqtt_config is not None:
-            register = mqtt_config.address
-            if register in data:
-                write_modbus(tag.device, modbus_config, data[register])
+            mqtt_address = mqtt_config.address
+            if mqtt_address in data:
+                print(f'Writing value: {data[mqtt_address]} to register: {modbus_config.register}')
+                write_modbus(tag.device, modbus_config, data[mqtt_address])
 
     session.commit()
     session.close()
@@ -59,4 +62,5 @@ routes = Router()
 devices = session.query(Device).all()
 for device in devices:
     routes.register(f'device/{device.id}', parse_device_message)
+    print(f'Registered device {device.id} to topic device/{device.id}')
 session.close()
