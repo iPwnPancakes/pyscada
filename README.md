@@ -48,6 +48,12 @@ Copy the example .env file and fill it out:
 cp ./flask_app/.env.example ./flask_app/.env
 ```
 
+Run the migrations:
+
+```bash
+cd ./flask_app/ && alembic upgrade head
+```
+
 Start it by running:
 
 ```bash
