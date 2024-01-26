@@ -17,5 +17,9 @@ class MqttConfig(DeviceTagConfig):
     def to_dict(self) -> dict:
         return {
             'id': self.id,
-            'address': self.address
+            'device_id': self.device_id,
+            'tag_id': self.tag_id,
+            'protocol_id': self.protocol_id,
+            'address': self.address,
+            'protocol_name': self.protocol
         }

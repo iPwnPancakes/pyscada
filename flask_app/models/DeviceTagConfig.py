@@ -29,5 +29,4 @@ class DeviceTagConfig(Base):
             'device_id': self.device_id,
             'tag_id': self.tag_id,
             'protocol_id': self.protocol_id,
-            'protocol_config_id': self.protocol_config_id
         }
