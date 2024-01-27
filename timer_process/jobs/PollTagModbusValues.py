@@ -4,11 +4,11 @@ from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from utils.Job import Job
-
-from flask_app.models.Tag import Tag
-from flask_app.models.ModbusConfig import ModbusConfig
 from flask_app.lib.modbus.ReadDriver import read_modbus
+from flask_app.models.ModbusConfig import ModbusConfig
+from flask_app.models.MqttConfig import MqttConfig  # noqa
+from flask_app.models.Tag import Tag
+from timer_process.utils.Job import Job
 
 
 class PollTagModbusValues(Job):
@@ -24,7 +24,14 @@ class PollTagModbusValues(Job):
         for tag in tags:
             modbus_config = tag.get_config(ModbusConfig)
             if modbus_config:
-                value = read_modbus(tag.device, modbus_config)
-                print(f'Read Tag: {tag.name} Value: {value}')
+                try:
+                    value = read_modbus(tag.device, modbus_config)
+                    tag.value_int = value
+                    session.commit()
+                    print(f'Read Tag: \"{tag.name}\" Value: {value}')
+                except Exception as e:
+                    print(f'Error reading tag: \"{tag.name}\"')
+                    print(e)
 
         self.last_run = datetime.now()
+        print('ran')

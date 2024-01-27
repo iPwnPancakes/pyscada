@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from utils.Job import Job
+from timer_process.utils.Job import Job
 
 
 class Cron:

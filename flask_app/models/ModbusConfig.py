@@ -23,4 +23,5 @@ class ModbusConfig(DeviceTagConfig):
             'protocol_id': self.protocol_id,
             'slave_id': self.slave_id,
             'register': self.register,
+            'protocol_name': self.protocol.name,
         }

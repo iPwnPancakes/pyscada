@@ -21,5 +21,5 @@ class MqttConfig(DeviceTagConfig):
             'tag_id': self.tag_id,
             'protocol_id': self.protocol_id,
             'address': self.address,
-            'protocol_name': self.protocol
+            'protocol_name': self.protocol.name
         }

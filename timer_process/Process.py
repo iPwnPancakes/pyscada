@@ -1,8 +1,8 @@
 import time
 from datetime import datetime
 
-from utils.Cron import Cron
-from utils.Job import Job
+from timer_process.utils.Cron import Cron
+from timer_process.utils.Job import Job
 
 
 class Process:
