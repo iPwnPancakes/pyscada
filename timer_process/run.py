@@ -7,6 +7,6 @@ load_dotenv()
 
 process = Process()
 
-process.register_job(HelloWorld('* * * * *'))
+process.register_job(HelloWorld('* * * * * *'))
 
 process.run()

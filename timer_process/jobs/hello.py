@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from utils.Job import Job
 
 
@@ -6,4 +8,6 @@ class HelloWorld(Job):
         super().__init__(schedule=schedule)
 
     def run(self):
-        print('Hello, world!')
+        print(f'Hello, world! @ {self.last_run}')
+        self.last_run = datetime.now()
+
