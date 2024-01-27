@@ -34,10 +34,10 @@ def parse_device_message(message: MQTTMessage):
     # Get device from database
     tags = session.query(Tag).filter(Tag.device_id == device_id).all()
     for tag in tags:
-        modbus_config: ModbusConfig|None = get_config(tag, ModbusConfig)
-        mqtt_config: MqttConfig|None = get_config(tag, MqttConfig)
+        modbus_config: ModbusConfig|None = tag.get_config(ModbusConfig)
+        mqtt_config: MqttConfig|None = tag.get_config(MqttConfig)
 
-        if modbus_config is not None and mqtt_config is not None:
+        if modbus_config and mqtt_config:
             mqtt_address = mqtt_config.address
             if mqtt_address in data:
                 print(f'Writing value: {data[mqtt_address]} to register: {modbus_config.register}')
@@ -45,12 +45,6 @@ def parse_device_message(message: MQTTMessage):
 
     session.commit()
     session.close()
-
-
-def get_config(tag: Tag, config: type[DeviceTagConfig]) -> DeviceTagConfig | None:
-    for tag_config in tag.device_configs:
-        if isinstance(tag_config, config):
-            return tag_config
 
 
 engine = create_engine(os.environ['SQLALCHEMY_DATABASE_URI'])

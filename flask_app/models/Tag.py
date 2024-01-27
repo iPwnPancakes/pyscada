@@ -1,10 +1,12 @@
-from typing import Optional, List
+from typing import Optional, List, TypeVar
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from flask_app.models.Base import Base
 from flask_app.models.DeviceTagConfig import DeviceTagConfig
+
+T = TypeVar('T')
 
 
 class Tag(Base):
@@ -21,6 +23,11 @@ class Tag(Base):
 
     device: Mapped["Device"] = relationship(back_populates="tags")
     device_configs: Mapped[List[DeviceTagConfig]] = relationship(back_populates="tag")
+
+    def get_config(self, config_type: type[T]) -> Optional[T]:
+        for config in self.device_configs:
+            if isinstance(config, config_type):
+                return config
 
     def to_dict(self) -> dict:
         return {
