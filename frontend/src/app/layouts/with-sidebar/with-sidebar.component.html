@@ -1,0 +1,11 @@
+<main class="main">
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav mode="over" [opened]="isOpen" (closed)="onCloseEvent()">
+            Sidenav Content
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+            <ng-content></ng-content>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</main>
