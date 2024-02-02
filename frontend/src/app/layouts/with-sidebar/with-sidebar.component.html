@@ -5,7 +5,11 @@
         </mat-sidenav>
 
         <mat-sidenav-content>
-            <ng-content></ng-content>
+            <ng-content select="[header]"></ng-content>
+
+            <div class="content">
+                <ng-content select="[content]"></ng-content>
+            </div>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </main>
