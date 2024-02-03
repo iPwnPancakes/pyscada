@@ -11,6 +11,7 @@ routes = Blueprint('device_routes', __name__)
 
 
 @routes.route('/devices', methods=['GET'])
+@cross_origin()
 def all_devices():
     db = current_app.db
     devices = db.session.query(Device).all()
