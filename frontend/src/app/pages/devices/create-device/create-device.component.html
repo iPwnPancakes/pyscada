@@ -1,10 +1,29 @@
 <form [formGroup]="createDeviceForm" (ngSubmit)="onSubmit()">
     <h1>Create Device</h1>
 
-    <mat-form-field>
+    <mat-form-field class="form-group">
         <mat-label>Name:</mat-label>
         <input matInput id="name" formControlName="name" type="text" name="name">
+        @if (createDeviceForm.hasError('required', 'name')) {
+            <mat-error>
+                Name is required
+            </mat-error>
+        } @else if (createDeviceForm.hasError('minlength', 'name')) {
+            <mat-error>
+                Name must be at least 3 characters long
+            </mat-error>
+        }
     </mat-form-field>
 
-    <button mat-raised-button color="primary" style="display:block;" type="submit">Create</button>
+    <mat-divider></mat-divider>
+
+    <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="submit-button"
+        [disabled]="createDeviceForm.invalid"
+    >
+        Create
+    </button>
 </form>
