@@ -2,7 +2,9 @@
     <h1>Devices</h1>
 
     @for (device of devices; track device.id) {
-        <li>{{ device.name }}</li>
+        <li>
+            <a routerLink="/devices/{{ device.id }}">{{ device.name }}</a>
+        </li>
     } @empty {
         <p>No devices found</p>
     }

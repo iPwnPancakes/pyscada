@@ -10,6 +10,14 @@ from flask_app.models.Tag import Tag
 routes = Blueprint('device_routes', __name__)
 
 
+@routes.route('/devices/<id>', methods=['GET'])
+@cross_origin()
+def get_complete_device_info(id):
+    db = current_app.db
+    device = db.session.query(Device).filter(Device.id == id).first()
+    return jsonify(device.to_dict())
+
+
 @routes.route('/devices', methods=['GET'])
 @cross_origin()
 def all_devices():

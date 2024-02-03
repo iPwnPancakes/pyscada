@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IDevice } from '../../../lib/ScadaApi/IDevice';
 
 @Component({
     selector: 'app-list-devices',
     standalone: true,
-    imports: [],
+    imports: [RouterLink],
     templateUrl: './list-devices.component.html',
     styleUrl: './list-devices.component.scss'
 })
