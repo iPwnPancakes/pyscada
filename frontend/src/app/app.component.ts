@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { WithSidebarComponent } from './layouts/with-sidebar/with-sidebar.component';
 import { NavbarComponent } from './core/navbar/navbar.component';
 import { SidebarService } from './layouts/with-sidebar/sidebar.service';
-import { DevicesModule } from './pages/devices/devices.module';
 
 @Component({
     selector: 'app-root',
@@ -12,7 +11,6 @@ import { DevicesModule } from './pages/devices/devices.module';
         RouterOutlet,
         WithSidebarComponent,
         NavbarComponent,
-        DevicesModule
     ],
     templateUrl: './app.component.html'
 })

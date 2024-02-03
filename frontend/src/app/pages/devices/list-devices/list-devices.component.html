@@ -1,0 +1,9 @@
+<div>
+    <h1>Devices</h1>
+
+    @for (device of devices; track device.id) {
+        <li>{{ device.name }}</li>
+    } @empty {
+        <p>No devices found</p>
+    }
+</div>
