@@ -74,7 +74,7 @@ def add_tag_to_device(device_id):
 
     device = db.session.query(Device).filter(Device.id == device_id).first()
 
-    tag = Tag(name=request.form.get('name'), device_id=device_id)
+    tag = Tag(name=request.json.get('name'), device_id=device_id)
 
     db.session.add(tag)
     device.tags.append(tag)
@@ -98,20 +98,20 @@ def create_tag_device_config(device_id, tag_id):
 
     config = None
 
-    if int(request.form.get('protocol_id')) == 1:
+    if int(request.json.get('protocol_id')) == 1:
         config = ModbusConfig(
             device_id=device_id,
             tag_id=tag_id,
-            protocol_id=request.form.get('protocol_id'),
-            slave_id=request.form.get('slave_id'),
-            register=request.form.get('address'),
+            protocol_id=request.json.get('protocol_id'),
+            slave_id=request.json.get('slave_id'),
+            register=request.json.get('address'),
         )
-    elif int(request.form.get('protocol_id')) == 2:
+    elif int(request.json.get('protocol_id')) == 2:
         config = MqttConfig(
             device_id=device_id,
             tag_id=tag_id,
-            protocol_id=request.form.get('protocol_id'),
-            address=request.form.get('address'),
+            protocol_id=request.json.get('protocol_id'),
+            address=request.json.get('address'),
         )
 
     db.session.add(config)
@@ -126,7 +126,7 @@ def get_device_network_config(device_id):
 
     networkConfig = db.session.query(NetworkConfiguration).filter(NetworkConfiguration.device_id == device_id).first()
 
-    return jsonify(networkConfig.to_dict())
+    return jsonify(networkConfig.to_dict()) if networkConfig else jsonify({})
 
 
 @routes.route('/devices/<device_id>/network', methods=['POST'])
@@ -135,8 +135,8 @@ def create_device_network_config(device_id):
 
     networkConfig = NetworkConfiguration(
         device_id=device_id,
-        ip_address=request.form.get('ip_address'),
-        port=request.form.get('port')
+        ip_address=request.json.get('ip_address'),
+        port=request.json.get('port')
     )
 
     db.session.add(networkConfig)

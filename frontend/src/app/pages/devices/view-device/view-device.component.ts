@@ -10,7 +10,7 @@ import { IDevice } from '../../../lib/ScadaApi/models/IDevice';
     styleUrl: './view-device.component.scss'
 })
 export class ViewDeviceComponent {
-    public device: IDevice | null = null;
+    public device!: IDevice;
 
     constructor(private route: ActivatedRoute) {}
 

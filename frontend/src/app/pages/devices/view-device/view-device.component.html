@@ -1,4 +1,28 @@
 <h1>Device</h1>
+<p>{{ device.id }}</p>
+<p>{{ device.name }}</p>
 
-<p>{{ device?.id }}</p>
-<p>{{ device?.name }}</p>
+@if (device.network_config) {
+    <h2>Network Configuration</h2>
+    <p>IP: {{ device.network_config.ip_address }}</p>
+    <p>Port: {{ device.network_config.port }}</p>
+}
+
+<h2>Tags</h2>
+@for (tag of device.tags; track tag.id) {
+    <h3>{{ tag.name }}</h3>
+    <p>{{ tag.id }}</p>
+
+    @for (config of tag.device_configs; track config.id) {
+        @if (config.protocol_name === 'MQTT') {
+            <h4>MQTT</h4>
+            <p>Address: {{ config.address }}</p>
+        } @else if (config.protocol_name === 'Modbus') {
+            <h4>Modbus</h4>
+            <p>Slave ID: {{ config.slave_id }}</p>
+            <p>Register: {{ config.register }}</p>
+        }
+    }
+} @empty {
+    <p>No tags</p>
+}

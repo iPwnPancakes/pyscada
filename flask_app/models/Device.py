@@ -31,5 +31,5 @@ class Device(Base):
             'name': self.name,
             'tags': [tag.to_complete_dict() for tag in self.tags],
             'configs': [config.to_dict() for config in self.configs],
-            'network_config': self.network_config.to_dict()
+            'network_config': self.network_config.to_dict() if self.network_config else None
         }
