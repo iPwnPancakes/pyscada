@@ -2,7 +2,7 @@ import { ResolveFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { ScadaApiService } from '../../../lib/ScadaApi/scada-api.service';
 import { Observable, throwError } from 'rxjs';
-import { IDevice } from '../../../lib/ScadaApi/IDevice';
+import { IDevice } from '../../../lib/ScadaApi/models/IDevice';
 
 export const deviceResolver: ResolveFn<Observable<IDevice>> = (route) => {
     const id = route.paramMap.get('id');

@@ -24,3 +24,12 @@ class Device(Base):
             'id': self.id,
             'name': self.name
         }
+
+    def to_complete_dict(self) -> dict:
+        return {
+            'id': self.id,
+            'name': self.name,
+            'tags': [tag.to_complete_dict() for tag in self.tags],
+            'configs': [config.to_dict() for config in self.configs],
+            'network_config': self.network_config.to_dict()
+        }

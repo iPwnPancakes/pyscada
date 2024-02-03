@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IDevice } from './IDevice';
+import { IDevice } from './models/IDevice';
 
 export class DeviceEndpoints {
     constructor(private readonly http: HttpClient, private readonly baseUrl: string) {}

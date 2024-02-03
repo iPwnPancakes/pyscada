@@ -15,7 +15,7 @@ routes = Blueprint('device_routes', __name__)
 def get_complete_device_info(id):
     db = current_app.db
     device = db.session.query(Device).filter(Device.id == id).first()
-    return jsonify(device.to_dict())
+    return jsonify(device.to_complete_dict())
 
 
 @routes.route('/devices', methods=['GET'])

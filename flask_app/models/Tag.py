@@ -39,3 +39,15 @@ class Tag(Base):
             'value_string': self.value_string,
             'value_bool': self.value_bool
         }
+
+    def to_complete_dict(self) -> dict:
+        return {
+            'id': self.id,
+            'name': self.name,
+            'device_id': self.device_id,
+            'value_int': self.value_int,
+            'value_float': self.value_float,
+            'value_string': self.value_string,
+            'value_bool': self.value_bool,
+            'device_configs': [config.to_dict() for config in self.device_configs]
+        }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IDevice } from '../../../lib/ScadaApi/IDevice';
+import { IDevice } from '../../../lib/ScadaApi/models/IDevice';
 
 @Component({
     selector: 'app-view-device',
