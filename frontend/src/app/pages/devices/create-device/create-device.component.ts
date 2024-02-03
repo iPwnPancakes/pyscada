@@ -27,7 +27,7 @@ export class CreateDeviceComponent {
             return;
         }
 
-        this.scadaApi.createDevice(this.createDeviceForm.value.name).subscribe({
+        this.scadaApi.DEVICES.create(this.createDeviceForm.value.name).subscribe({
             next: () => {
                 this.router.navigate(['/devices']);
             },

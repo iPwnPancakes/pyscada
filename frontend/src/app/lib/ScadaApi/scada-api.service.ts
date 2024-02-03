@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { IDevice } from './IDevice';
+import { DeviceEndpoints } from './device-endpoints';
 
 @Injectable({
     providedIn: 'root'
@@ -10,14 +9,9 @@ import { IDevice } from './IDevice';
 export class ScadaApiService {
     private readonly baseUrl = environment.SCADA_API_URL;
 
+    public DEVICES: DeviceEndpoints;
+
     constructor(private http: HttpClient) {
-    }
-
-    public createDevice(name: string): Observable<void> {
-        return this.http.post<void>(`${ this.baseUrl }/devices`, { name });
-    }
-
-    public getDevices(): Observable<IDevice[]> {
-        return this.http.get<IDevice[]>(`${ this.baseUrl }/devices`);
+        this.DEVICES = new DeviceEndpoints(http, this.baseUrl);
     }
 }

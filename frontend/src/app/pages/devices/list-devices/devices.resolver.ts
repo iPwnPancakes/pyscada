@@ -5,5 +5,5 @@ import { Observable } from 'rxjs';
 import { IDevice } from '../../../lib/ScadaApi/IDevice';
 
 export const devicesResolver: ResolveFn<Observable<IDevice[]>> = () => {
-    return inject(ScadaApiService).getDevices();
+    return inject(ScadaApiService).DEVICES.all();
 };
