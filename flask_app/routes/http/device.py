@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, current_app
+from flask_cors import cross_origin
 
 from flask_app.models.Device import Device
 from flask_app.models.ModbusConfig import ModbusConfig
@@ -17,10 +18,11 @@ def all_devices():
 
 
 @routes.route('/devices', methods=['POST'])
+@cross_origin()
 def make_device():
     db = current_app.db
 
-    name = request.form.get('name')
+    name = request.json.get('name')
 
     device = Device(name=name)
 

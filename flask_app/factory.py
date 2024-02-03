@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 
 from flask_app.models.Base import Base
@@ -12,6 +13,8 @@ from flask_app.routes.http.ui import routes as ui_routes
 
 def create_flask_app() -> Flask:
     app = Flask(__name__)
+    CORS(app)
+
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 
     with app.app_context():
