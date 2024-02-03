@@ -1,6 +1,6 @@
 <h1>Device</h1>
-<p>{{ device.id }}</p>
-<p>{{ device.name }}</p>
+<p>ID: {{ device.id }}</p>
+<p>Name: {{ device.name }}</p>
 
 @if (device.network_config) {
     <h2>Network Configuration</h2>
@@ -11,7 +11,8 @@
 <h2>Tags</h2>
 @for (tag of device.tags; track tag.id) {
     <h3>{{ tag.name }}</h3>
-    <p>{{ tag.id }}</p>
+    <p>ID: {{ tag.id }}</p>
+    <p>Current Value: {{ tag.value_int ?? tag.value_float ?? tag.value_bool ?? tag.value_string ?? 'NULL' }}</p>
 
     @for (config of tag.device_configs; track config.id) {
         @if (config.protocol_name === 'MQTT') {
