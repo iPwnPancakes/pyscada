@@ -1,8 +1,6 @@
-export interface IMqttConfig {
-    id: number;
-    device_id: number;
-    tag_id: number;
-    protocol_id: number;
+import { IDeviceTagConfig } from './IDeviceTagConfig';
+
+export interface IMqttConfig extends IDeviceTagConfig {
     protocol_name: 'MQTT';
     address: string;
 }

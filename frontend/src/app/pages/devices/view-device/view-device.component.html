@@ -55,7 +55,7 @@
                             @for (config of tag.device_configs; track config.id) {
                                 <li>
                                     <a
-                                        routerLink="/devices/{{ device.id }}/{{ tag.id }}/"
+                                        routerLink="/devices/{{ device.id }}/tags/{{ tag.id }}/config/{{ config.id }}"
                                         class="text-blue-600"
                                     >
                                         @switch (config.protocol_name) {

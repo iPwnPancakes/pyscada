@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify, current_app
+from flask_cors import cross_origin
 
 from flask_app.models.Tag import Tag
+from flask_app.models.DeviceTagConfig import DeviceTagConfig
 
 routes = Blueprint('tag_routes', __name__)
 
@@ -36,3 +38,14 @@ def delete_tag(id):
     db.session.commit()
 
     return jsonify("Success")
+
+@routes.route('/configs/<config_id>', methods=['GET'])
+@cross_origin()
+def get_tag_config(config_id):
+    db = current_app.db
+    config: DeviceTagConfig = db.session.query(DeviceTagConfig).filter(DeviceTagConfig.id == config_id).first()
+
+    if config is None:
+        return jsonify("Config not found"), 404
+
+    return jsonify(config.to_dict())
