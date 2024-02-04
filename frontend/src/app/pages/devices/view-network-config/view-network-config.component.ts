@@ -12,14 +12,12 @@ import { ModbusFormComponent } from './modbus-form/modbus-form.component';
         MqttFormComponent,
         ModbusFormComponent
     ],
-    templateUrl: './view-network-config.component.html',
-    styleUrl: './view-network-config.component.scss'
+    templateUrl: './view-network-config.component.html'
 })
 export class ViewNetworkConfigComponent {
     public config!: IMqttConfig | IModbusConfig;
 
-    constructor(private readonly route: ActivatedRoute) {
-    }
+    constructor(private readonly route: ActivatedRoute) {}
 
     ngOnInit(): void {
         this.route.data.subscribe((data) => {

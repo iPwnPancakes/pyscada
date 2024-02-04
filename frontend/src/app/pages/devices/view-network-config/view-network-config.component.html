@@ -1,7 +1,5 @@
-<h1>Configuration</h1>
-
-@if (config.protocol_name === 'MQTT') {
-    <app-mqtt-form></app-mqtt-form>
-} @else if (config.protocol_name === 'Modbus') {
-    <app-modbus-form></app-modbus-form>
+@if (config.protocol_name === 'Modbus') {
+    <app-modbus-form [config]="config"></app-modbus-form>
+} @else if (config.protocol_name === 'MQTT') {
+    <app-mqtt-form [config]="config"></app-mqtt-form>
 }
