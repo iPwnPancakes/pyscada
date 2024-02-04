@@ -121,13 +121,21 @@ def create_tag_device_config(device_id, tag_id):
 
 
 @routes.route('/devices/<device_id>/network', methods=['GET'])
-def get_device_network_config(device_id):
+def get_all_device_tag_network_configs(device_id):
     db = current_app.db
 
     networkConfig = db.session.query(NetworkConfiguration).filter(NetworkConfiguration.device_id == device_id).first()
 
     return jsonify(networkConfig.to_dict()) if networkConfig else jsonify({})
 
+@routes.route('/devices/<device_id>/network/<network_id>', methods=['GET'])
+@cross_origin()
+def get_device_tag_network_config(device_id, network_id):
+    db = current_app.db
+
+    networkConfig = db.session.query(NetworkConfiguration).filter(NetworkConfiguration.device_id == device_id, NetworkConfiguration.id == network_id).first()
+
+    return jsonify(networkConfig.to_dict())
 
 @routes.route('/devices/<device_id>/network', methods=['POST'])
 def create_device_network_config(device_id):

@@ -3,7 +3,7 @@
 
     @for (device of devices; track device.id) {
         <li>
-            <a routerLink="/devices/{{ device.id }}">{{ device.name }}</a>
+            <a routerLink="/devices/{{ device.id }}" class="text-blue-600">{{ device.name }}</a>
         </li>
     } @empty {
         <p>No devices found</p>

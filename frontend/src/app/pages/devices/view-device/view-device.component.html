@@ -1,29 +1,81 @@
-<h1>Device</h1>
-<p>ID: {{ device.id }}</p>
-<p>Name: {{ device.name }}</p>
+<div class="grid grid-cols-2 gap-4">
+    <mat-card>
+        <mat-card-header>
+            <h1>Device</h1>
+        </mat-card-header>
 
-@if (device.network_config) {
-    <h2>Network Configuration</h2>
-    <p>IP: {{ device.network_config.ip_address }}</p>
-    <p>Port: {{ device.network_config.port }}</p>
-}
+        <mat-card-content>
+            <p>Name: {{ device.name }}</p>
+        </mat-card-content>
+    </mat-card>
 
-<h2>Tags</h2>
-@for (tag of device.tags; track tag.id) {
-    <h3>{{ tag.name }}</h3>
-    <p>ID: {{ tag.id }}</p>
-    <p>Current Value: {{ tag.value_int ?? tag.value_float ?? tag.value_bool ?? tag.value_string ?? 'NULL' }}</p>
+    @if (device.network_config) {
+        <mat-card>
+            <mat-card-header>
+                <h2>Network Configuration</h2>
+            </mat-card-header>
 
-    @for (config of tag.device_configs; track config.id) {
-        @if (config.protocol_name === 'MQTT') {
-            <h4>MQTT</h4>
-            <p>Address: {{ config.address }}</p>
-        } @else if (config.protocol_name === 'Modbus') {
-            <h4>Modbus</h4>
-            <p>Slave ID: {{ config.slave_id }}</p>
-            <p>Register: {{ config.register }}</p>
-        }
+            <mat-card-content>
+                <p>IP: {{ device.network_config.ip_address }}</p>
+                <p>Port: {{ device.network_config.port }}</p>
+            </mat-card-content>
+        </mat-card>
     }
-} @empty {
-    <p>No tags</p>
-}
+</div>
+
+<div class="grid grid-1 gap-4 mt-4">
+    <mat-card>
+        <mat-card-header>
+            <h2>Tags</h2>
+        </mat-card-header>
+
+        <mat-card-content>
+            <table mat-table [dataSource]="device.tags">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>ID</th>
+                    <td mat-cell *matCellDef="let tag">{{ tag.id }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Name</th>
+                    <td mat-cell *matCellDef="let tag">{{ tag.name }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef>Current Value</th>
+                    <td mat-cell *matCellDef="let tag">
+                        {{ tag.value_int ?? tag.value_float ?? tag.value_bool ?? tag.value_string ?? 'NULL' }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="configs">
+                    <th mat-header-cell *matHeaderCellDef>Configurations</th>
+                    <td mat-cell *matCellDef="let tag">
+                        <ul>
+                            @for (config of tag.device_configs; track config.id) {
+                                <li>
+                                    <a
+                                        routerLink="/devices/{{ device.id }}/{{ tag.id }}/"
+                                        class="text-blue-600"
+                                    >
+                                        @switch (config.protocol_name) {
+                                            @case ('MQTT') {
+                                                MQTT
+                                            }
+                                            @case ('Modbus') {
+                                                Modbus
+                                            }
+                                        }
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="tagDisplayColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: tagDisplayColumns;"></tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
+</div>

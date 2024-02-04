@@ -4,6 +4,10 @@
     height: 100%;
 }
 
+main {
+    height: 100%;
+}
+
 nav {
     margin-bottom: 2rem;
 }
@@ -11,4 +15,8 @@ nav {
 footer {
     margin-bottom: 1rem;
     padding: 0 2rem;
+}
+
+.mat-drawer-container {
+    height: 100%;
 }
