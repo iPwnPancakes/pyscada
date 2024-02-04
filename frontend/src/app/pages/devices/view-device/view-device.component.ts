@@ -22,12 +22,15 @@ export class ViewDeviceComponent {
     ngOnInit() {
         this.route.data.subscribe({
             next: (data) => {
-                this.device = data['device'] ?? null;   
+                this.device = data['device'] ?? null;
                 this.device.tags.forEach(tag => {
                     let listener = this.wsListener.createListener(tag.id);
 
                     listener.subscribe({
-                        next: value => this.onNewTagValue(tag, value)
+                        next: value => this.onNewTagValue(tag, value),
+                        error: err => {
+                            console.error(err);
+                        }
                     });
                 });
             }

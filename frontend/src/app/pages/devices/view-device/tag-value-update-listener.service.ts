@@ -1,27 +1,29 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { WebSocketSubject } from 'rxjs/internal/observable/dom/WebSocketSubject';
-import { webSocket } from 'rxjs/webSocket';
 import { environment } from '../../../../environments/environment';
 import { Observable, Subject } from 'rxjs';
+import { io, Socket } from 'socket.io-client';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TagValueUpdateListenerService implements OnDestroy {
-    private websocket: WebSocketSubject<any> | null = null;
-    private observable: Observable<number | string | boolean> | null = null;
+    private websocket!: Socket;
     private subscribers: Subject<number | string | boolean>[] = [];
 
+    constructor() {
+        this.websocket = io(`${ environment.SCADA_WEBSOCKET_URL }`);
+    }
+
+
     public createListener(tagId: number): Subject<number | string | boolean> {
-        if (!this.websocket) {
-            const websocketRoom = `tag/${ tagId }/values`;
-            this.websocket = webSocket(`${ environment.SCADA_WEBSOCKET_URL }/${ websocketRoom }`);
-            this.observable = new Observable<number | string | boolean>();
-        }
+        this.websocket = io(`${ environment.SCADA_WEBSOCKET_URL }`);
+        this.websocket.connect();
+        this.websocket.on('connect', () => {
+            this.websocket.emit('join', { room: `tag/${ tagId }/values` });
+        });
 
         const listener = new Subject<number | string | boolean>();
 
-        this.websocket.subscribe(listener);
         this.subscribers.push(listener);
 
         return listener;
