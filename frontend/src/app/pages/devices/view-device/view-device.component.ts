@@ -38,6 +38,14 @@ export class ViewDeviceComponent {
     }
 
     private onNewTagValue(tag: ITag, value: number | string | boolean): void {
+        this.device.tags = this.device.tags.map(currentTag => {
+            if (currentTag.id === tag.id) {
+                currentTag.value_int = Number(value);
+            }
+
+            return currentTag;
+        })
+
         console.log(`New value for tag ${ tag.name }: ${ value }`);
     }
 }
