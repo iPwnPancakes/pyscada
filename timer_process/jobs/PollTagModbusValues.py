@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 
+from requests import post
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -26,12 +27,14 @@ class PollTagModbusValues(Job):
             if modbus_config:
                 try:
                     value = read_modbus(tag.device, modbus_config)
-                    tag.value_int = value
-                    session.commit()
                     print(f'Read Tag: \"{tag.name}\" Value: {value}')
+
+                    self.send_value_to_api(tag, value)
                 except Exception as e:
                     print(f'Error reading tag: \"{tag.name}\"')
                     print(e)
 
         self.last_run = datetime.now()
-        print('ran')
+
+    def send_value_to_api(self, tag: Tag, value: int) -> None:
+        post(f'{os.environ["SCADA_API_URL"]}/tags/{tag.id}/value', json={'value': value})
