@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
 @Injectable({
@@ -16,10 +16,14 @@ export class TagValueUpdateListenerService implements OnDestroy {
 
 
     public createListener(tagId: number): Subject<number | string | boolean> {
-        this.websocket = io(`${ environment.SCADA_WEBSOCKET_URL }`);
         this.websocket.connect();
+
         this.websocket.on('connect', () => {
             this.websocket.emit('join', { room: `tag/${ tagId }/values` });
+        });
+
+        this.websocket.on('value_received', (data) => {
+            this.subscribers.forEach(sub => sub.next(data));
         });
 
         const listener = new Subject<number | string | boolean>();
