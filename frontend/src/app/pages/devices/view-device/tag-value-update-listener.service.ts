@@ -22,8 +22,8 @@ export class TagValueUpdateListenerService implements OnDestroy {
             this.websocket.emit('join', { room: `tag/${ tagId }/values` });
         });
 
-        this.websocket.on('value_received', (data) => {
-            this.subscribers.forEach(sub => sub.next(data));
+        this.websocket.on('value_received', ({ value }) => {
+            this.subscribers.forEach(sub => sub.next(value));
         });
 
         const listener = new Subject<number | string | boolean>();

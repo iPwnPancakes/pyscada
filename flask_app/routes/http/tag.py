@@ -29,6 +29,25 @@ def make_tag():
     return jsonify("Success")
 
 
+@routes.route('/tags/<tag_id>/value', methods=['POST'])
+@cross_origin()
+def set_tag_value(tag_id):
+    db = current_app.db
+    tag = db.session.query(Tag).filter(Tag.id == tag_id).first()
+
+    value = request.json.get('value')
+
+    tag.value_int = int(value)
+
+    db.session.commit()
+
+    # Emit value to socketio room
+    room = f'tag/{tag_id}/values'
+    current_app.socketio.emit('value_received', {'value': value}, room=room)
+
+    return jsonify("Success")
+
+
 @routes.route('/tags/<id>', methods=['DELETE'])
 def delete_tag(id):
     db = current_app.db
@@ -38,6 +57,7 @@ def delete_tag(id):
     db.session.commit()
 
     return jsonify("Success")
+
 
 @routes.route('/configs/<config_id>', methods=['GET'])
 @cross_origin()
