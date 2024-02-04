@@ -22,7 +22,7 @@ export class ViewDeviceComponent {
     ngOnInit() {
         this.route.data.subscribe({
             next: (data) => {
-                this.device = data['device'] ?? null;
+                this.device = data['device'] ?? null;   
                 this.device.tags.forEach(tag => {
                     let listener = this.wsListener.createListener(tag.id);
 
